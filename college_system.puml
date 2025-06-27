@@ -1,44 +1,105 @@
 @startuml
+' Entities
 class Student {
-+id: Long
-+name: String
-+getName(): String
+    +id: Long
+    +name: String
+    +lastName: String
+    +institutionalEmail: String
+    +enrollment: Enrollment
+    +birthday: Date
+    +gender: Gender
+    +signUpOnSubject(subject: Subject, course: Course): void
+    +getGrades(): List<Grade>
+    +getSchedule(): List<Course>
 }
 class Professor {
-+id: Long
-+name: String
-+subjects: Subject[]
-+getName(): String
+    +id: Long
+    +name: String
+    +lastName: String
+    +institutionalEmail: String
+    +birthday: Date
+    +gender: Gender
+    +subjects: Subject[]
+    +setGrade(subject: Subject, nota: double): void
+    +getSubjects(): List<Subject>
+    +getCourses(): List<Course>
 }
 class Subject {
-+id: Long
-+name: String
-+getName(): String
-+professors: Professor[]
-+students: Student[]
+    +id: Long
+    +name: String
+    +code: String
+    +credits: int
+    +description: String
+    +getCourses(): List<Course>
 }
 class Course {
-+id: Long
-+name: String
-+schedule: DateTime
-+professor: Professor
-+student: Student
-+getName(): String
+    +id: Long
+    +name: String
+    +capacity: int
+    +modality: Modality
+    +schedule: Date
+    +room: String
+    +professor: Professor
 }
 class Grade {
-+id: Long
-+grade: Double
-+getGrade(): Double
+    +id: Long
+    +grade: Double
+    +getGrade(): Double
 }
 class Enrollment {
-+id: Long
-+subjects: Subject[]
+    +id: Long
+    +subjects: Subject[]
+    +signUpDate: Date
+    +status: EnrollmentStatus
+    +getDetails(): String
+}
+class Faculty {
+    +id: Long
+    +name: String
+    +description: String
+    +dean: String
+    +getProfessors(): List<Professor>
+    +getSubjects(): List<Subject>
+    +getCourses(): List<Course>
+}
+enum Gender {
+    +MALE
+    +FEMALE
+}
+enum Modality {
+    +FACE_TO_FACE
+    +REMOTE
+}
+enum EnrollmentStatus {
+    +ACTIVE
+    +DROPPED
+    +FINISHED
 }
 
-Student"1" ---> "1"Enrollment
-Subject"1" --l-> "1..*"Course
-Subject"1" ---> "1"Grade
-Professor"1" ---> "*"Subject
-Student"1" --l-> "1..*"Subject
-Enrollment"1" --> "1..*"Subject
+' Relations
+Student "1" ---> "1" Enrollment
+Student "1" ---> "1" Faculty
+Student "1" ---> "0..*" Grade
+Student "1" ---> "0..*" Course
+
+Professor "1" ---> "0..*" Subject
+Professor "1" ---> "1" Faculty
+Professor "1" ---> "0..*" Course
+
+Subject "1" --l-> "1..*" Course
+Subject "1" --r-> "1" Faculty
+Subject "1" ---> "0..*" Grade
+
+Enrollment "1" ---> "1..*" Subject
+
+Course "1" ---> "1" Subject
+Course "1" ---> "1" Professor
+
+Grade "1" --l-> "1" Subject
+
+Faculty "1" ---> "0..*" Subject
+Faculty "1" ---> "0..*" Professor
+Faculty "1" -r--> "0..*" Student
+Faculty "1" --l-> "0..*" Course
+
 @enduml
