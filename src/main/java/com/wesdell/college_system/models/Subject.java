@@ -1,6 +1,7 @@
 package com.wesdell.college_system.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -22,7 +23,6 @@ public class Subject {
     private String description;
 
     @NotBlank
-    @NotNull
     private String name;
     private int credits;
 

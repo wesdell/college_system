@@ -20,7 +20,6 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
     private Long id;
 
-    @NotNull
     @NotBlank
     private String name;
     private String lastName;
