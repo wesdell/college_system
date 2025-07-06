@@ -29,7 +29,7 @@ public class Student {
     @Column(unique = true, nullable = false)
     private String institutionalEmail;
 
-    @NotBlank
+    @NotNull
     @Past
     private LocalDate birthday;
 
