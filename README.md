@@ -62,6 +62,11 @@ This is an application that simulates a college system, supporting the roles of 
 
 ![College system diagram](./docs/uml/college_system-0.png)
 
+
+### DB Schema
+
+![College system db diagram](./docs/db/college_system-0.png)
+
 ---
 
 ## Design
