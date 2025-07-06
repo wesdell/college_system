@@ -60,7 +60,7 @@ This is an application that simulates a college system, supporting the roles of 
 
 ### UML Class Diagram
 
-![College system diagram](./src/resources/project/college_system.png)
+![College system diagram](./docs/uml/college_system-0.png)
 
 ---
 
