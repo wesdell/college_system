@@ -2,6 +2,7 @@ package com.wesdell.college_system.models;
 
 import com.wesdell.college_system.interfaces.Gender;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,12 +20,18 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
     private Long id;
 
+    @NotNull
+    @NotBlank
     private String name;
     private String lastName;
 
+    @Email
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String institutionalEmail;
 
+    @NotBlank
+    @Past
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
