@@ -1,0 +1,99 @@
+Project "College System" {
+  database_type: "PostgreSQL"
+}
+
+Enum Modality {
+  FACE_TO_FACE
+  REMOTE
+  HYBRID
+}
+
+Enum EnrollmentStatus {
+  ACTIVE
+  DROPPED
+  FINISHED
+}
+
+Table faculties {
+  id BIGINT [pk, increment]
+  name VARCHAR(100) [not null, unique]
+  description TEXT
+  dean VARCHAR(100)
+  location VARCHAR(100)
+}
+
+Table students {
+  id BIGINT [pk, increment]
+  name VARCHAR(100)
+  last_name VARCHAR(100)
+  institutional_email VARCHAR(100) [not null, unique]
+  birthday DATE
+  gender VARCHAR(10)
+  faculty_id BIGINT [ref: > faculties.id]
+}
+
+Table professors {
+  id BIGINT [pk, increment]
+  name VARCHAR(100)
+  last_name VARCHAR(100)
+  institutional_email VARCHAR(100) [not null, unique]
+  birthday DATE
+  gender VARCHAR(10)
+  faculty_id BIGINT [ref: > faculties.id]
+}
+
+Table subjects {
+  id BIGINT [pk, increment]
+  name VARCHAR(100) [not null]
+  code VARCHAR(20) [not null, unique]
+  credits INT [not null]
+  description TEXT
+  faculty_id BIGINT [ref: > faculties.id]
+}
+
+Table professor_subject {
+  professor_id BIGINT [ref: > professors.id]
+  subject_id BIGINT [ref: > subjects.id]
+  indexes {
+    (professor_id, subject_id) [pk]
+  }
+}
+
+Table courses {
+  id BIGINT [pk, increment]
+  subject_id BIGINT [ref: > subjects.id]
+  professor_id BIGINT [ref: > professors.id]
+  name VARCHAR(100) [not null]
+  schedule TIMESTAMP [not null]
+  modality Modality [not null]
+  capacity INT [not null]
+  room VARCHAR(50)
+}
+
+Table enrollments {
+  id BIGINT [pk, increment]
+  student_id BIGINT [ref: > students.id]
+  sign_up_date DATE [not null]
+  status EnrollmentStatus [not null]
+}
+
+Table enrollment_subjects {
+  enrollment_id BIGINT [ref: > enrollments.id]
+  subject_id BIGINT [ref: > subjects.id]
+  course_id BIGINT [ref: > courses.id]
+  indexes {
+    (enrollment_id, subject_id, course_id) [pk]
+  }
+}
+
+Table grades {
+  id BIGINT [pk, increment]
+  subject_id BIGINT [ref: > subjects.id]
+  student_id BIGINT [ref: > students.id]
+  course_id BIGINT [ref: > courses.id]
+  grade DOUBLE [not null]
+  date_recorded DATE [not null]
+  indexes {
+    (student_id, subject_id, course_id) [unique]
+  }
+}
