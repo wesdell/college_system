@@ -41,6 +41,7 @@ public class StudentService implements IStudentService {
             student.setBirthday(updatedStudent.getBirthday());
             student.setGender(updatedStudent.getGender());
             student.setFaculty(updatedStudent.getFaculty());
+            studentRepository.save(student);
         }
     }
 
