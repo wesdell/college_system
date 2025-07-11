@@ -1,11 +1,16 @@
-Project "College System" {
+Project CollegeSystem {
   database_type: "PostgreSQL"
+}
+
+Enum Gender {
+  MALE
+  FEMALE
+  OTHER
 }
 
 Enum Modality {
   FACE_TO_FACE
   REMOTE
-  HYBRID
 }
 
 Enum EnrollmentStatus {
@@ -14,86 +19,110 @@ Enum EnrollmentStatus {
   FINISHED
 }
 
+Enum AssignmentType {
+  TEST
+  HOMEWORK
+  PROJECT
+  WORKSHOP
+}
+
+Table colleges {
+  id bigint [pk]
+  name varchar(100)
+  description text
+}
+
 Table faculties {
-  id BIGINT [pk, increment]
-  name VARCHAR(100) [not null, unique]
-  description TEXT
-  dean VARCHAR(100)
-  location VARCHAR(100)
+  id bigint [pk]
+  name varchar(100)
+  description text
+  dean varchar(100)
+  college_id bigint [ref: > colleges.id] // College "1" -> "1..*" Faculty
 }
 
-Table students {
-  id BIGINT [pk, increment]
-  name VARCHAR(100)
-  last_name VARCHAR(100)
-  institutional_email VARCHAR(100) [not null, unique]
-  birthday DATE
-  gender VARCHAR(10)
-  faculty_id BIGINT [ref: > faculties.id]
-}
-
-Table professors {
-  id BIGINT [pk, increment]
-  name VARCHAR(100)
-  last_name VARCHAR(100)
-  institutional_email VARCHAR(100) [not null, unique]
-  birthday DATE
-  gender VARCHAR(10)
-  faculty_id BIGINT [ref: > faculties.id]
+Table careers {
+  id bigint [pk]
+  name varchar(100)
+  description text
+  faculty_id bigint [ref: > faculties.id] // Faculty "1" -> "1..*" Career
 }
 
 Table subjects {
-  id BIGINT [pk, increment]
-  name VARCHAR(100) [not null]
-  code VARCHAR(20) [not null, unique]
-  credits INT [not null]
-  description TEXT
-  faculty_id BIGINT [ref: > faculties.id]
+  id bigint [pk]
+  name varchar(100)
+  code varchar(20) [unique]
+  credits int
+  description text
+  career_id bigint [ref: > careers.id] // Career "1" -> "1..*" Subject
 }
 
-Table professor_subject {
-  professor_id BIGINT [ref: > professors.id]
-  subject_id BIGINT [ref: > subjects.id]
-  indexes {
-    (professor_id, subject_id) [pk]
-  }
+Table professors {
+  id bigint [pk]
+  name varchar(100)
+  last_name varchar(100)
+  institutional_email varchar(100) [unique]
+  birthday date
+  gender Gender
+}
+
+Table classrooms {
+  id bigint [pk]
+  room_number varchar(10)
+  capacity int
+  location varchar(100)
 }
 
 Table courses {
-  id BIGINT [pk, increment]
-  subject_id BIGINT [ref: > subjects.id]
-  professor_id BIGINT [ref: > professors.id]
-  name VARCHAR(100) [not null]
-  schedule TIMESTAMP [not null]
-  modality Modality [not null]
-  capacity INT [not null]
-  room VARCHAR(50)
+  id bigint [pk]
+  name varchar(100)
+  capacity int
+  modality Modality
+  schedule timestamp
+  subject_id bigint [ref: > subjects.id] // Subject "1" -> "1..*" Course
+  classroom_id bigint [ref: > classrooms.id] // Course "1" -> "1..*" Classroom
+  professor_id bigint [ref: > professors.id] // Course "1" -> "1" Professor
 }
 
 Table enrollments {
-  id BIGINT [pk, increment]
-  student_id BIGINT [ref: > students.id]
-  sign_up_date DATE [not null]
-  status EnrollmentStatus [not null]
+  id bigint [pk]
+  sign_up_date date
+  status EnrollmentStatus
+}
+
+Table students {
+  id bigint [pk]
+  name varchar(100)
+  last_name varchar(100)
+  institutional_email varchar(100) [unique]
+  birthday date
+  gender Gender
+  enrollment_id bigint [ref: > enrollments.id, unique] // Student "1" -> "1" Enrollment (1:1 enforced)
+}
+
+Table assignments {
+  id bigint [pk]
+  type AssignmentType
+  description text
+  weight int
+  subject_id bigint [ref: > subjects.id] // Subject "1" -> "1..*" Assignment
 }
 
 Table enrollment_subjects {
-  enrollment_id BIGINT [ref: > enrollments.id]
-  subject_id BIGINT [ref: > subjects.id]
-  course_id BIGINT [ref: > courses.id]
-  indexes {
-    (enrollment_id, subject_id, course_id) [pk]
-  }
+  enrollment_id bigint [ref: > enrollments.id]
+  subject_id bigint [ref: > subjects.id]
+  Primary Key (enrollment_id, subject_id)
 }
 
 Table grades {
-  id BIGINT [pk, increment]
-  subject_id BIGINT [ref: > subjects.id]
-  student_id BIGINT [ref: > students.id]
-  course_id BIGINT [ref: > courses.id]
-  grade DOUBLE [not null]
-  date_recorded DATE [not null]
-  indexes {
-    (student_id, subject_id, course_id) [unique]
-  }
+  id bigint [pk]
+  value double
+  assignment_id bigint [ref: > assignments.id] // Assignment "1" -> "1" Grade
+  subject_id bigint [ref: > subjects.id] // Subject "1" -> "1" Grade
+  student_id bigint [ref: > students.id]
+}
+
+Table course_students {
+  course_id bigint [ref: > courses.id]
+  student_id bigint [ref: > students.id]
+  Primary Key (course_id, student_id) // Course "1" -> "1..*" Student (M:N)
 }
