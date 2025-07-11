@@ -32,7 +32,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public void updateStudentById(Long id, Student updatedStudent){
+    public boolean updateStudentById(Long id, Student updatedStudent){
         Optional<Student> existingStudent = studentRepository.findById(id);
         if(existingStudent.isPresent()){
             Student student = existingStudent.get();
@@ -42,12 +42,19 @@ public class StudentService implements IStudentService {
             student.setGender(updatedStudent.getGender());
             student.setFaculty(updatedStudent.getFaculty());
             studentRepository.save(student);
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void deleteStudentById(Long id){
-        studentRepository.deleteById(id);
+    public boolean deleteStudentById(Long id){
+        Optional<Student> existingStudent = studentRepository.findById(id);
+        if(existingStudent.isPresent()){
+            studentRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }
