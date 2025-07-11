@@ -1,5 +1,51 @@
 @startuml
 ' Entities
+class College {
+    +id: Long
+    +name: String
+    +description: String
+}
+class Faculty {
+    +id: Long
+    +name: String
+    +description: String
+    +dean: String
+}
+class Classroom {
+    +id: Long
+    +roomNumber: String
+    +capacity: int
+    +location: String
+}
+class Career {
+    +id: Long
+    +name: String
+    +description: String
+}
+class Subject {
+    +id: Long
+    +name: String
+    +code: String
+    +credits: int
+    +description: String
+}
+class Course {
+    +id: Long
+    +name: String
+    +capacity: int
+    +modality: Modality
+    +schedule: Date
+}
+class Assignment {
+    +id: Long
+    +type: AssignmentType
+    +description: String
+    +weight: int
+}
+class Grade {
+    +id: Long
+    +value: Double
+}
 class Student {
     +id: Long
     +name: String
@@ -8,9 +54,6 @@ class Student {
     +enrollment: Enrollment
     +birthday: Date
     +gender: Gender
-    +signUpOnSubject(subject: Subject, course: Course): void
-    +getGrades(): List<Grade>
-    +getSchedule(): List<Course>
 }
 class Professor {
     +id: Long
@@ -19,52 +62,17 @@ class Professor {
     +institutionalEmail: String
     +birthday: Date
     +gender: Gender
-    +subjects: Subject[]
-    +setGrade(subject: Subject, nota: double): void
-    +getSubjects(): List<Subject>
-    +getCourses(): List<Course>
-}
-class Subject {
-    +id: Long
-    +name: String
-    +code: String
-    +credits: int
-    +description: String
-    +getCourses(): List<Course>
-}
-class Course {
-    +id: Long
-    +name: String
-    +capacity: int
-    +modality: Modality
-    +schedule: Date
-    +room: String
-    +professor: Professor
-}
-class Grade {
-    +id: Long
-    +grade: Double
-    +getGrade(): Double
 }
 class Enrollment {
     +id: Long
-    +subjects: Subject[]
     +signUpDate: Date
     +status: EnrollmentStatus
-    +getDetails(): String
-}
-class Faculty {
-    +id: Long
-    +name: String
-    +description: String
-    +dean: String
-    +getProfessors(): List<Professor>
-    +getSubjects(): List<Subject>
-    +getCourses(): List<Course>
+    +maxCredits: int
 }
 enum Gender {
     +MALE
     +FEMALE
+    +OTHER
 }
 enum Modality {
     +FACE_TO_FACE
@@ -75,31 +83,25 @@ enum EnrollmentStatus {
     +DROPPED
     +FINISHED
 }
+enum AssignmentType {
+    +TEST
+    +HOMEWORK
+    +PROJECT
+    +WORKSHOP
+}
 
 ' Relations
-Student "1" ---> "1" Enrollment
-Student "1" ---> "1" Faculty
-Student "1" ---> "0..*" Grade
-Student "1" ---> "0..*" Course
-
-Professor "1" ---> "0..*" Subject
-Professor "1" ---> "1" Faculty
-Professor "1" ---> "0..*" Course
-
-Subject "1" --l-> "1..*" Course
-Subject "1" --r-> "1" Faculty
-Subject "1" ---> "0..*" Grade
-
-Enrollment "1" ---> "1..*" Subject
-
-Course "1" ---> "1" Subject
-Course "1" ---> "1" Professor
-
-Grade "1" --l-> "1" Subject
-
-Faculty "1" ---> "0..*" Subject
-Faculty "1" ---> "0..*" Professor
-Faculty "1" -r--> "0..*" Student
-Faculty "1" --l-> "0..*" Course
+College "1" -r-> "1..*" Faculty
+Faculty "1" --> "1..*" Career
+Career "1" --> "1..*" Subject
+Subject "1" -r-> "1..*" Course
+Course "1" --> "1..*" Classroom
+Course "1" --> "1" Professor
+Course "1" -r-> "1..*" Student
+Student "1" --> "1" Enrollment
+Enrollment "1" --> "1..*" Subject
+Subject "1" --> "1" Grade
+Subject "1" -l-> "1..*" Assignment
+Assignment "1" --> "1" Grade
 
 @enduml
