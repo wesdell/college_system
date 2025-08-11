@@ -17,6 +17,7 @@ This is an application that simulates a college system, supporting the roles of 
 - [Planning](#planning)
 - [Analysis](#analysis)
 - [Design](#design)
+- [How to run this project](#how-to-run)
 
 ---
 
@@ -70,3 +71,27 @@ This is an application that simulates a college system, supporting the roles of 
 ---
 
 ## Design
+
+---
+
+## How to run
+
+### Start the database and dependencies
+
+Make sure you have Docker installed. From the project root, run:
+
+```bash
+docker compose up -d
+```
+
+### Run the Java application
+
+After the containers are running, execute the application using your preferred method:
+
+From an IDE (e.g., IntelliJ IDEA, Eclipse) → run the main class of the Spring Boot application.
+
+Or from the terminal:
+
+```bash
+./mvnw spring-boot:run
+```
