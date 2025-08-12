@@ -1,6 +1,8 @@
 package com.wesdell.college_system.services;
 
+import com.wesdell.college_system.exceptions.ResourceNotFoundException;
 import com.wesdell.college_system.interfaces.IStudentService;
+import com.wesdell.college_system.models.Faculty;
 import com.wesdell.college_system.models.Student;
 import com.wesdell.college_system.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -27,34 +29,29 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public void createStudent(Student newStudent){
-        studentRepository.save(newStudent);
+    public Student createStudent(Student newStudent){
+        return studentRepository.save(newStudent);
     }
 
     @Override
-    public boolean updateStudentById(Long id, Student updatedStudent){
-        Optional<Student> existingStudent = studentRepository.findById(id);
-        if(existingStudent.isPresent()){
-            Student student = existingStudent.get();
+    public Student updateStudentById(Long id, Student updatedStudent) throws ResourceNotFoundException {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student", id));
+
             student.setName(updatedStudent.getName());
             student.setLastName(updatedStudent.getLastName());
             student.setBirthday(updatedStudent.getBirthday());
             student.setGender(updatedStudent.getGender());
             student.setFaculty(updatedStudent.getFaculty());
-            studentRepository.save(student);
-            return true;
-        }
-        return false;
+
+            return studentRepository.save(student);
     }
 
     @Override
-    public boolean deleteStudentById(Long id){
-        Optional<Student> existingStudent = studentRepository.findById(id);
-        if(existingStudent.isPresent()){
-            studentRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void deleteStudentById(Long id){
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student", id));
+        studentRepository.delete(student);
     }
 
 }
