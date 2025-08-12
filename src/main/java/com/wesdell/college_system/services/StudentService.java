@@ -24,8 +24,8 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public Student getStudentById(Long id){
-        return studentRepository.findById(id).orElse(null);
+    public Student getStudentById(Long id) throws ResourceNotFoundException {
+        return studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student", id));
     }
 
     @Override
