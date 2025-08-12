@@ -1,5 +1,6 @@
 package com.wesdell.college_system.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -30,13 +31,8 @@ public class Faculty {
     private String description;
     private String location;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<Student> students = new ArrayList<>();
-
-    @OneToMany(mappedBy = "faculty",  cascade = CascadeType.ALL,  orphanRemoval = true)
-    private List<Professor> professors = new ArrayList<>();
-
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Subject> subjects = new ArrayList<>();
 
 }
