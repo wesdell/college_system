@@ -23,8 +23,9 @@ public class FacultyService implements IFacultyService {
     }
 
     @Override
-    public Faculty getFacultyById(Long id) {
-        return facultyRepository.findById(id).orElse(null);
+    public Faculty getFacultyById(Long id) throws ResourceNotFoundException {
+        return facultyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Faculty", id));
     }
 
     @Override

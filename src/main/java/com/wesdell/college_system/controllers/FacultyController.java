@@ -26,11 +26,7 @@ public class FacultyController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Faculty> getFacultyById(@PathVariable Long id) {
-        Faculty faculty = iFacultyService.getFacultyById(id);
-        if (faculty != null) {
-            return new ResponseEntity<>(faculty, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(iFacultyService.getFacultyById(id), HttpStatus.OK);
     }
 
     @PostMapping
