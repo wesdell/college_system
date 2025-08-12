@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IFacultyService {
     List<Faculty> getFaculties();
-    Faculty getFacultyById(Long id);
+    Faculty getFacultyById(Long id) throws ResourceNotFoundException;
     Faculty createFaculty(Faculty newFaculty);
     Faculty updateFacultyById(Long id, Faculty updatedFaculty) throws ResourceNotFoundException;
     void deleteFacultyById(Long id) throws ResourceNotFoundException;
