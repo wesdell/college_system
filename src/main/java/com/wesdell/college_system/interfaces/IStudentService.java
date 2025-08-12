@@ -7,7 +7,7 @@ import java.util.List;
 public interface IStudentService {
     List<Student> getStudents();
     Student getStudentById(Long id);
-    void createStudent(Student newStudent);
-    boolean updateStudentById(Long id, Student updatedStudent);
-    boolean deleteStudentById(Long id);
+    Student createStudent(Student newStudent);
+    Student updateStudentById(Long id, Student updatedStudent);
+    void deleteStudentById(Long id);
 }
