@@ -32,11 +32,15 @@ public class Faculty {
     private String location;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL,  orphanRemoval = true)
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Student> students = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "faculty",  cascade = CascadeType.ALL,  orphanRemoval = true)
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Professor> professors = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subject> subjects = new ArrayList<>();
 
 }
