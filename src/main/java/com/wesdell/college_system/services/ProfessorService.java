@@ -24,7 +24,8 @@ public class ProfessorService implements IProfessorService {
 
     @Override
     public Professor getProfessorById(Long id) throws ResourceNotFoundException {
-        return professorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Professor", id));
+        return professorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Professor", id));
     }
 
     @Override

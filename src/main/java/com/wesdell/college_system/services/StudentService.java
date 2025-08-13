@@ -2,7 +2,6 @@ package com.wesdell.college_system.services;
 
 import com.wesdell.college_system.exceptions.ResourceNotFoundException;
 import com.wesdell.college_system.interfaces.IStudentService;
-import com.wesdell.college_system.models.Faculty;
 import com.wesdell.college_system.models.Student;
 import com.wesdell.college_system.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
