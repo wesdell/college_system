@@ -1,9 +1,8 @@
 package com.wesdell.college_system.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
@@ -24,6 +23,9 @@ public class Subject {
 
     @NotBlank
     private String name;
+
+    @NotNull
+    @Max(6)
     private int credits;
 
     @NotNull
@@ -32,5 +34,6 @@ public class Subject {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
+    @JsonBackReference
     private Faculty faculty;
 }
