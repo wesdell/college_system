@@ -35,4 +35,8 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<Student> students = new ArrayList<>();
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "faculty",  cascade = CascadeType.ALL,  orphanRemoval = true)
+    private List<Professor> professors = new ArrayList<>();
+
 }
