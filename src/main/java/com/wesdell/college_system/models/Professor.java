@@ -1,5 +1,6 @@
 package com.wesdell.college_system.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.wesdell.college_system.interfaces.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -22,6 +23,8 @@ public class Professor {
 
     @NotBlank
     private String name;
+
+    @NotBlank
     private String lastName;
 
     @Email
@@ -38,5 +41,6 @@ public class Professor {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
+    @JsonBackReference
     private Faculty faculty;
 }
