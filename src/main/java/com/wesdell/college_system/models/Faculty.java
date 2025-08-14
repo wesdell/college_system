@@ -1,11 +1,13 @@
 package com.wesdell.college_system.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,26 +23,31 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faculty_sequence")
     private Long id;
 
-    @NotBlank
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Faculty name is required")
+    @Size(min = 3, max = 100, message = "Faculty name must be between 3 and 100 characters")
+    @Column(nullable = false)
     private String name;
 
-    @NotBlank
-    private String dean;
-
+    @NotBlank(message = "Faculty description is required")
+    @Size(min = 3, max = 100, message = "Faculty description must be between 3 and 100 characters")
+    @Column(nullable = false)
     private String description;
+
+    @NotBlank(message = "Faculty location is required")
+    @Size(min = 3, max = 100, message = "Faculty location must be between 3 and 100 characters")
+    @Column(nullable = false)
     private String location;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Student> students = new ArrayList<>();
+    @NotBlank(message = "Dean name is required")
+    @Size(min = 3, max = 100, message = "Dean name must be between 3 and 100 characters")
+    @Column(nullable = false)
+    private String dean;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Professor> professors = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "college_id", nullable = false)
+    private College college;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Subject> subjects = new ArrayList<>();
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Career> careers;
 
 }
