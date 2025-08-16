@@ -8,7 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -37,7 +38,7 @@ public class Career {
     @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty;
 
-    @OneToMany(mappedBy = "career", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Subject> subjects;
+    @OneToMany(mappedBy = "career", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Subject> subjects = new HashSet<>();
 
 }
