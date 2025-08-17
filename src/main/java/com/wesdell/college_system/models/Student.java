@@ -1,12 +1,16 @@
 package com.wesdell.college_system.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.wesdell.college_system.interfaces.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -21,27 +25,33 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Student name is required")
+    @Size(min = 3, max = 100, message = "Student name must be between 3 and 100 characters")
+    @Column(nullable = false)
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Student lastname is required")
+    @Size(min = 3, max = 100, message = "Student lastname must be between 3 and 100 characters")
+    @Column(nullable = false)
     private String lastName;
 
-    @Email
-    @NotBlank
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
     @Column(unique = true, nullable = false)
     private String institutionalEmail;
 
-    @NotNull
-    @Past
+    @NotNull(message = "Birthday is required")
+    @Past(message = "Invalid birthday")
     private LocalDate birthday;
 
+    @NotNull(message = "Gender is required")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "faculty_id")
-    @JsonBackReference
-    private Faculty faculty;
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Enrollment enrollment;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Grade> grades = new HashSet<>();
 
 }
