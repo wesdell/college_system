@@ -43,7 +43,7 @@ public class Subject {
     private int credits;
 
     @NotBlank(message = "Subject code is required")
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
