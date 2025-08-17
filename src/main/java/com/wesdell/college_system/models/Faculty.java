@@ -26,7 +26,7 @@ public class Faculty {
 
     @NotBlank(message = "Faculty name is required")
     @Size(min = 3, max = 100, message = "Faculty name must be between 3 and 100 characters")
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @NotBlank(message = "Faculty description is required")
