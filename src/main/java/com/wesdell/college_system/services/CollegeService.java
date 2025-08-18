@@ -4,18 +4,16 @@ import com.wesdell.college_system.exceptions.ResourceNotFoundException;
 import com.wesdell.college_system.interfaces.ICollegeService;
 import com.wesdell.college_system.models.College;
 import com.wesdell.college_system.repositories.CollegeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CollegeService implements ICollegeService {
 
     private final CollegeRepository collegeRepository;
-
-    public CollegeService(CollegeRepository collegeRepository) {
-        this.collegeRepository = collegeRepository;
-    }
 
     @Override
     public List<College> getColleges() {
