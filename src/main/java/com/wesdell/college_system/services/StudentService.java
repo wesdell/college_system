@@ -4,21 +4,19 @@ import com.wesdell.college_system.exceptions.ResourceNotFoundException;
 import com.wesdell.college_system.interfaces.IStudentService;
 import com.wesdell.college_system.models.Student;
 import com.wesdell.college_system.repositories.StudentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService implements IStudentService {
 
     private final StudentRepository studentRepository;
 
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
-
     @Override
-    public List<Student> getStudents(){
+    public List<Student> getStudents() {
         return studentRepository.findAll();
     }
 
@@ -28,7 +26,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public Student createStudent(Student newStudent){
+    public Student createStudent(Student newStudent) {
         return studentRepository.save(newStudent);
     }
 
@@ -37,17 +35,18 @@ public class StudentService implements IStudentService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student", id));
 
-            student.setName(updatedStudent.getName());
-            student.setLastName(updatedStudent.getLastName());
-            student.setBirthday(updatedStudent.getBirthday());
-            student.setGender(updatedStudent.getGender());
-            student.setFaculty(updatedStudent.getFaculty());
+        student.setName(updatedStudent.getName());
+        student.setLastName(updatedStudent.getLastName());
+        student.setBirthday(updatedStudent.getBirthday());
+        student.setGender(updatedStudent.getGender());
+        student.setEnrollment(updatedStudent.getEnrollment());
+        student.setGrades(updatedStudent.getGrades());
 
-            return studentRepository.save(student);
+        return studentRepository.save(student);
     }
 
     @Override
-    public void deleteStudentById(Long id){
+    public void deleteStudentById(Long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student", id));
         studentRepository.delete(student);
