@@ -4,18 +4,16 @@ import com.wesdell.college_system.exceptions.ResourceNotFoundException;
 import com.wesdell.college_system.interfaces.IFacultyService;
 import com.wesdell.college_system.models.Faculty;
 import com.wesdell.college_system.repositories.FacultyRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FacultyService implements IFacultyService {
 
     private final FacultyRepository facultyRepository;
-
-    public FacultyService(FacultyRepository facultyRepository) {
-        this.facultyRepository = facultyRepository;
-    }
 
     @Override
     public List<Faculty> getFaculties() {
@@ -41,6 +39,8 @@ public class FacultyService implements IFacultyService {
         faculty.setDescription(updatedFaculty.getDescription());
         faculty.setDean(updatedFaculty.getDean());
         faculty.setLocation(updatedFaculty.getLocation());
+        faculty.setCollege(updatedFaculty.getCollege());
+        faculty.setCareers(updatedFaculty.getCareers());
 
         return facultyRepository.save(faculty);
     }
