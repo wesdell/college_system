@@ -4,21 +4,19 @@ import com.wesdell.college_system.exceptions.ResourceNotFoundException;
 import com.wesdell.college_system.interfaces.IProfessorService;
 import com.wesdell.college_system.models.Professor;
 import com.wesdell.college_system.repositories.ProfessorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProfessorService implements IProfessorService {
 
     private final ProfessorRepository professorRepository;
 
-    public ProfessorService(ProfessorRepository professorRepository) {
-        this.professorRepository = professorRepository;
-    }
-
     @Override
-    public List<Professor> getProfessors(){
+    public List<Professor> getProfessors() {
         return professorRepository.findAll();
     }
 
@@ -29,7 +27,7 @@ public class ProfessorService implements IProfessorService {
     }
 
     @Override
-    public Professor createProfessor(Professor newProfessor){
+    public Professor createProfessor(Professor newProfessor) {
         return professorRepository.save(newProfessor);
     }
 
@@ -38,17 +36,17 @@ public class ProfessorService implements IProfessorService {
         Professor professor = professorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Professor", id));
 
-            professor.setName(updatedProfessor.getName());
-            professor.setLastName(updatedProfessor.getLastName());
-            professor.setBirthday(updatedProfessor.getBirthday());
-            professor.setGender(updatedProfessor.getGender());
-            professor.setFaculty(updatedProfessor.getFaculty());
+        professor.setName(updatedProfessor.getName());
+        professor.setLastName(updatedProfessor.getLastName());
+        professor.setBirthday(updatedProfessor.getBirthday());
+        professor.setGender(updatedProfessor.getGender());
+        professor.setCourses(updatedProfessor.getCourses());
 
-            return professorRepository.save(professor);
+        return professorRepository.save(professor);
     }
 
     @Override
-    public void deleteProfessorById(Long id){
+    public void deleteProfessorById(Long id) {
         Professor professor = professorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Professor", id));
         professorRepository.delete(professor);
