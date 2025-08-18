@@ -4,18 +4,16 @@ import com.wesdell.college_system.exceptions.ResourceNotFoundException;
 import com.wesdell.college_system.interfaces.ISubjectService;
 import com.wesdell.college_system.models.Subject;
 import com.wesdell.college_system.repositories.SubjectRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SubjectService implements ISubjectService {
 
     private final SubjectRepository subjectRepository;
-
-    public SubjectService(SubjectRepository subjectRepository) {
-        this.subjectRepository = subjectRepository;
-    }
 
     @Override
     public List<Subject> getSubjects() {
@@ -38,10 +36,12 @@ public class SubjectService implements ISubjectService {
         Subject subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject", id));
 
-        subject.setDescription(updatedSubject.getDescription());
         subject.setName(updatedSubject.getName());
+        subject.setDescription(updatedSubject.getDescription());
         subject.setCredits(updatedSubject.getCredits());
-        subject.setFaculty(updatedSubject.getFaculty());
+        subject.setCareer(updatedSubject.getCareer());
+        subject.setCourses(updatedSubject.getCourses());
+        subject.setAssignments(updatedSubject.getAssignments());
 
         return subjectRepository.save(subject);
     }
