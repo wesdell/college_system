@@ -6,6 +6,7 @@ import com.wesdell.college_system.models.Career;
 import java.util.List;
 
 public interface ICareerService {
+
     List<Career> getCareers();
 
     Career getCareerById(Long id) throws ResourceNotFoundException;
@@ -15,4 +16,9 @@ public interface ICareerService {
     Career updateCareerById(Long id, Career updatedCareer) throws ResourceNotFoundException;
 
     void deleteCareerById(Long id) throws ResourceNotFoundException;
+
+    Career addSubjectToCareer(Long id, Long subjectId) throws ResourceNotFoundException;
+
+    Career removeSubjectFromCareer(Long id, Long subjectId) throws ResourceNotFoundException;
+
 }

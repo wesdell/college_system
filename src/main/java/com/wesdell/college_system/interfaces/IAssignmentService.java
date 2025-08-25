@@ -6,6 +6,7 @@ import com.wesdell.college_system.models.Assignment;
 import java.util.List;
 
 public interface IAssignmentService {
+
     List<Assignment> getAssignments();
 
     Assignment getAssignmentById(Long id) throws ResourceNotFoundException;
@@ -15,4 +16,9 @@ public interface IAssignmentService {
     Assignment updateAssignmentById(Long id, Assignment updatedAssignment) throws ResourceNotFoundException;
 
     void deleteAssignmentById(Long id) throws ResourceNotFoundException;
+
+    Assignment addGradeToAssignment(Long assignmentId, Long gradeId) throws ResourceNotFoundException;
+
+    Assignment removeGradeFromAssignment(Long assignmentId, Long gradeId) throws ResourceNotFoundException;
+
 }
