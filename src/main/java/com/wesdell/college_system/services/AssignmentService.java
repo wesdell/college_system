@@ -62,10 +62,10 @@ public class AssignmentService implements IAssignmentService {
     }
 
     @Override
-    public Assignment removeGradeFromAssignment(Long id, Long gradeId) throws ResourceNotFoundException {
+    public void removeGradeFromAssignment(Long id, Long gradeId) throws ResourceNotFoundException {
         Assignment assignment = getAssignmentById(id);
         assignment.getGrades().removeIf(grade -> grade.getId().equals(gradeId));
-        return assignmentRepository.save(assignment);
+        assignmentRepository.save(assignment);
     }
 
 }

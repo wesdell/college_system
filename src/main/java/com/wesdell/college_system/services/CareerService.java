@@ -57,15 +57,14 @@ public class CareerService implements ICareerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Subject", subjectId));
 
         career.getSubjects().add(subject);
-
         return careerRepository.save(career);
     }
 
     @Override
-    public Career removeSubjectFromCareer(Long id, Long subjectId) throws ResourceNotFoundException {
+    public void removeSubjectFromCareer(Long id, Long subjectId) throws ResourceNotFoundException {
         Career career = getCareerById(id);
         career.getSubjects().removeIf(subject -> subject.getId().equals(subjectId));
-        return careerRepository.save(career);
+        careerRepository.save(career);
     }
 
 }

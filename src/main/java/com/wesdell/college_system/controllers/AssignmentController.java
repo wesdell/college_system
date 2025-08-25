@@ -47,12 +47,13 @@ public class AssignmentController {
 
     @PostMapping("/{id}/grades/{gradeId}")
     public ResponseEntity<Assignment> addGradeToAssignment(@PathVariable Long id, @PathVariable Long gradeId) {
-        return ResponseEntity.ok(iAssignmentService.addGradeToAssignment(id, gradeId));
+        return new ResponseEntity<>(iAssignmentService.addGradeToAssignment(id, gradeId), HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/{id}/grades/{gradeId}")
-    public ResponseEntity<Assignment> removeGradeFromAssignment(@PathVariable Long id, @PathVariable Long gradeId) {
-        return ResponseEntity.ok(iAssignmentService.removeGradeFromAssignment(id, gradeId));
+    public ResponseEntity<Void> removeGradeFromAssignment(@PathVariable Long id, @PathVariable Long gradeId) {
+        iAssignmentService.removeGradeFromAssignment(id, gradeId);
+        return ResponseEntity.noContent().build();
     }
 
 }

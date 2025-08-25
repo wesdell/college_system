@@ -47,12 +47,13 @@ public class CareerController {
 
     @PostMapping("/{id}/subjects/{subjectId}")
     public ResponseEntity<Career> addSubjectToCareer(@PathVariable Long id, @PathVariable Long subjectId) {
-        return ResponseEntity.ok(iCareerService.addSubjectToCareer(id, subjectId));
+        return new ResponseEntity<>(iCareerService.addSubjectToCareer(id, subjectId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/subjects/{subjectId}")
-    public ResponseEntity<Career> removeSubjectFromCareer(@PathVariable Long id, @PathVariable Long subjectId) {
-        return ResponseEntity.ok(iCareerService.removeSubjectFromCareer(id, subjectId));
+    public ResponseEntity<Void> removeSubjectFromCareer(@PathVariable Long id, @PathVariable Long subjectId) {
+        iCareerService.removeSubjectFromCareer(id, subjectId);
+        return ResponseEntity.noContent().build();
     }
 
 }
