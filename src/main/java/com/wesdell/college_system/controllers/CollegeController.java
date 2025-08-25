@@ -45,4 +45,15 @@ public class CollegeController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{id}/faculties/{facultyId}")
+    public ResponseEntity<College> addFacultyToCollege(@PathVariable Long id, @PathVariable Long facultyId) {
+        return new ResponseEntity<>(iCollegeService.addFacultyToCollege(id, facultyId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/faculties/{facultyId}")
+    public ResponseEntity<College> removeFacultyToCollege(@PathVariable Long id, @PathVariable Long facultyId) {
+        iCollegeService.removeFacultyFromCollege(id, facultyId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
