@@ -6,6 +6,7 @@ import com.wesdell.college_system.models.College;
 import java.util.List;
 
 public interface ICollegeService {
+
     List<College> getColleges();
 
     College getCollegeById(Long id) throws ResourceNotFoundException;
@@ -15,4 +16,9 @@ public interface ICollegeService {
     College updateCollegeById(Long id, College updatedCollege) throws ResourceNotFoundException;
 
     void deleteCollegeById(Long id) throws ResourceNotFoundException;
+
+    College addFacultyToCollege(Long id, Long facultyId) throws ResourceNotFoundException;
+
+    void removeFacultyFromCollege(Long id, Long facultyId) throws ResourceNotFoundException;
+
 }

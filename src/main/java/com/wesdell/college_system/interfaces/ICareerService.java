@@ -19,6 +19,6 @@ public interface ICareerService {
 
     Career addSubjectToCareer(Long id, Long subjectId) throws ResourceNotFoundException;
 
-    Career removeSubjectFromCareer(Long id, Long subjectId) throws ResourceNotFoundException;
+    void removeSubjectFromCareer(Long id, Long subjectId) throws ResourceNotFoundException;
 
 }

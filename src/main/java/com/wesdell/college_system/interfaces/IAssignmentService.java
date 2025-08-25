@@ -19,6 +19,6 @@ public interface IAssignmentService {
 
     Assignment addGradeToAssignment(Long assignmentId, Long gradeId) throws ResourceNotFoundException;
 
-    Assignment removeGradeFromAssignment(Long assignmentId, Long gradeId) throws ResourceNotFoundException;
+    void removeGradeFromAssignment(Long assignmentId, Long gradeId) throws ResourceNotFoundException;
 
 }
